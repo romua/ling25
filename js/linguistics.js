@@ -15,22 +15,6 @@ function clearTextAndGetLength() {
         t = s.split ('  ');
         s = t.join (' ');
     }
-    while (s.indexOf ('   ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
-
-    while (s.indexOf ('    ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
-    while (s.indexOf ('     ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
     for(var i=0; i< doomedSymbols.length; i++)
     {
         t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
