@@ -5,6 +5,7 @@ var doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", 
 var arrayF = []; //масив в якому зберігаються частоти(к-сть появ слів(унікальних) в всьому тексті )
 var arrayL = []; //масив всіх слів
 var arrayV = []; //масив унікальних слів - Vocabulary
+var valueOfL = prompt("Give me l");
 
 function clearTextAndGetLength() {
     
@@ -80,12 +81,16 @@ function getUnique(arr) {
         for (var i = 0; i < arr.length; i++) {
             var str = arr[i];
             for (var j = 0; j < arrayV.length; j++) {
+               // if(str.length === valueOfL)
                 if (arrayV[j] === str) continue nextInput;
             }
+            if(str.length == +valueOfL)
             arrayV.push(str);
         }
-   
-    return arrayV.length;
+    
+
+
+        return arrayV.length;
 }
 
 function getTimes(arr, word) {
@@ -117,10 +122,10 @@ function getTable() {
         cols = 1;
         rows = 1;
     }
-   document.write('<button id="btnExport">');
+    document.write('<button id="btnExport">');
     document.write("Save as xsl");
     document.write('</button>');
-    
+    //
     document.write(' <table id="table_wrapper" border=1, cellpadding=2, cellspacing=0, width="90%">');
     document.write("<tr>");
             document.write('<td>');
@@ -149,11 +154,10 @@ function getTable() {
     }
     document.write("</table>");
     console.timeEnd('time to get Table');
-    $(document).ready(function() {
+     $(document).ready(function() {
         $("#btnExport").click(function(e) {
             e.preventDefault();
-
-            //getting data from our table
+           //getting data from our table
             var data_type = 'data:application/vnd.ms-excel';
             var table_div = document.getElementById('table_wrapper');
             var table_html = table_div.outerHTML.replace(/ /g, '%20');
