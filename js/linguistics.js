@@ -154,13 +154,13 @@ function getTable() {
             e.preventDefault();
 
             //getting data from our table
-            var data_type = 'data:application/vnd.ms-excel';
+            var data_type = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64';
             var table_div = document.getElementById('table_wrapper');
             var table_html = table_div.outerHTML.replace(/ /g, '%20');
             var data_name = new Date().toLocaleString();
             var a = document.createElement('a');
             a.href = data_type + ', ' + table_html;
-            a.download = 'exported_table_' + data_name + '.xls';
+            a.download = 'exported_table_' + data_name + '.xlsx';
             a.click();
         });
     });
