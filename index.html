@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -49,7 +49,10 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a href="#page-top"></a>
-                    </li>             
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#Main app">Main App</a>
+                    </li>
                     <li class="page-scroll">
                         <a href="#about">About app</a>
                     </li>
@@ -63,25 +66,25 @@
     <!-- Header -->
     <header>
         <div class="container">
-            <div class="row">
+            <div id="Main app" class="row">
                 <div class="col-lg-12">
 					<div class="intro-text">
                         <span class="name"></span>
 							<form>
-								<div class="col-lg-12 text-center">
+								<div  class="col-lg-12 text-center">
 									<h2>Input text</h2>
 								</div>
 								<div>
                                     <form action="process.php" accept-charset="UTF-8">
-									    <textarea id="inputText" style="color: black; height: 400px; width: 80%"></textarea>
+									    <textarea id="inputText" style="color: black; height: 200px; width: 80%"></textarea>
                                     </form>
 								</div>
 								
 								<div>
-                                    <input type="button" value="Preproceed" onclick="clearTextAndGetLength()" class="btn btn-lg btn-outline">
+                                    <input type="button" value="Preprocessing" onclick="clearTextAndGetLength()" class="btn btn-lg btn-outline">
                                     <input type="button" value="Get Vocabulary" onclick="getVocabulary()" class="btn btn-lg btn-outline">
                                     <input type="button" value="Get f and F" onclick="getF()" class="btn btn-lg btn-outline">
-                                    <input type="button" value="Get table" onclick="getTable()" class="btn btn-lg btn-outline">
+                                    <input type="button" value="Get table" onclick="getTable()" class="btn btn-lg btn-outline" charset="windows-1251">
                                 </div>
 								<div class="col-lg-12 text-center">
 									<h2>Output text</h2>
@@ -89,7 +92,7 @@
 								</div>
                                 <div>
                                     <form accept-charset="UTF-8">
-                                        <textarea id="outputText" style="color: black; height: 400px; width: 80%"></textarea>
+                                        <textarea id="outputText" style="color: black; height: 200px; width: 80%"></textarea>
                                     </form>
                                 </div>
 							</form>
@@ -107,19 +110,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>About</h2>
+                    <h3>About</h3>
                     <hr class="star-light">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-2">
-                    <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy customization.</p>
+                    <p>Computational linguistics is an interdisciplinary field concerned with the statistical or rule-based modeling of natural language from a computational perspective.</p>
                 </div>
                 <div class="col-lg-4">
-                    <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or a graphic artist looking to share your projects, this template is the perfect starting point!</p>
+                    <p>Traditionally, computational linguistics was performed by computer scientists who had specialized in the application of computers to the processing of a natural language.</p>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-lg btn-outline">
+                    <a href="https://github.com/romua/ling25" class="btn btn-lg btn-outline">
                         <i class="fa fa-download"></i> Download Source Code
                     </a>
                 </div>
@@ -135,11 +138,12 @@
                 <div class="row">
                     <div class="footer-col col-md-4">
                         <h3>Location</h3>
-                        <p>3481 Melrose Place
-                            <br>Beverly Hills, CA 90210</p>
+                        <p>Ivan Franko National University of Lviv
+                            <br>1, Universytetska St., Lviv, 79000, Ukraine</p>
                     </div>
                     <div class="footer-col col-md-4">
                         <h3>Around the Web</h3>
+
                         <ul class="list-inline">
                             <li>
                                 <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
@@ -159,8 +163,8 @@
                         </ul>
                     </div>
                     <div class="footer-col col-md-4">
-                        <h3>About Freelancer</h3>
-                        <p>Freelance is a free to use, open source Bootstrap theme created by <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
+                        <h3>About my app</h3>
+                        <p>This app created as a tusk for computional liguistics course.<a href="https://github.com/romua/ling25"> Check GitHub</a>.</p>
                     </div>
                 </div>
             </div>
@@ -169,7 +173,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; Your Website 2016
+                        Copyright &copy; Chapkaylo 2016
                     </div>
                 </div>
             </div>
@@ -181,7 +185,7 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script>
         console.time('time to load a text: ');
-        $( "#inputText" ).load( "inputText.txt" );
+        $( "#inputText" ).load( "inputText_larg.txt" );
         console.timeEnd('time to load a text: ');
     </script>
 
@@ -205,8 +209,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
     <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
-    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
-   
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js">
+    <script src="https://code.jquery.com/jquery-git.min.js"></script>
+
 
 
 </body>
