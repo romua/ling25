@@ -12,7 +12,7 @@ var wordLength = prompt("Give me el");
 console.log("Довжина слова(букв): "+wordLength);
 
 function clearTextAndGetLength() {
-    
+    console.time('time to get Length');
     var s = document.getElementById("inputText").value.toLowerCase();
     while (s.indexOf ('  ') >= 0) //видаляємо всі подвійні пробіли
     {
@@ -57,16 +57,17 @@ function clearTextAndGetLength() {
     arrayL = s.split(' '); //закидуємо в масив наш текст
     document.getElementById("outputText").value = s; //закидуємо в Textarea наш такст
 
-    console.time('time to get Length'); // засікаємо час виконання пошуку довижини тексту
-    console.log('К-сть усіх слів: '+ arrayL.length);
+   // засікаємо час виконання пошуку довижини тексту
+    
     for (var i=0; i<arrayL.length; i++) {
         if (arrayL[i].length === +wordLength)
         {
             arrayLel.push(arrayL[i]);
         }
     }
-    console.log(arrayLel);
     console.log(arrayL);
+    console.log('К-сть усіх слів: '+ arrayL.length);
+    console.log(arrayLel);
     console.log('К-сть слів на '+ wordLength +' букв: '+ arrayLel.length);
     console.timeEnd('time to get Length'); // засікаємо час виконання пошуку довижини тексту
 
@@ -117,23 +118,25 @@ function getTimes(arr, word) {
     return count;
 
 }
-//Отримання словника на el букв
-function getVocabularyEL() {
-   
-    console.time('time to get Vocabulary');
-        console.log('К-сть слів на '+ wordLength +' букв:'+getUniqueEL(arrayLel));
-    console.timeEnd('time to get Vocabulary');
-
-    
-}
 //Отримання словника
 function getVocabulary() {
 
     console.time('time to get Vocabulary');
-        console.log("К-сть різних слів: "+getUnique(arrayL));
+    console.log("К-сть різних слів: "+getUnique(arrayL));
     console.timeEnd('time to get Vocabulary');
 
 }
+
+//Отримання словника на el букв
+function getVocabularyEL() {
+   
+    console.time('time to get Vocabulary');
+        console.log('К-сть різних слів на '+ wordLength +' букв:'+getUniqueEL(arrayLel));
+    console.timeEnd('time to get Vocabulary');
+
+    
+}
+
 
 //Отримання таблиці(Word F f fl) на el букв
 function getTableLE() {
@@ -178,21 +181,21 @@ function getTableLE() {
             document.write("</td>");
 
             document.write('<td>');
-                document.write(arrayFel[i]/arrayL.length);
+                document.write(+(arrayFel[i]/arrayL.length));
             document.write("</td>");
 
             document.write('<td>');
-                document.write(arrayFel[i]/arrayLel.length);
+                document.write(+(arrayFel[i]/arrayLel.length));
             document.write("</td>");
         document.write("</tr>");
     }
     document.write("</table>");
-    console.timeEnd('time to get Table');
+
      $(document).ready(function() {
         $("#btnExport").click(function(e) {
             e.preventDefault();
            //getting data from our table
-            var data_type = 'data:application/vnd.ms-excel';
+            var data_type = 'data:application/vnd.ms-excel;charset=KOI8-U';
             var table_div = document.getElementById('table_wrapper');
             var table_html = table_div.outerHTML.replace(/ /g, '%20');
             var data_name = new Date().toLocaleString();
@@ -202,6 +205,7 @@ function getTableLE() {
             a.click();
         });
     });
+    console.timeEnd('time to get Table');
 }
 
 //Отримання таблиці всіх слів
@@ -281,7 +285,21 @@ function getF(){
     console.log(arrayF);
     console.timeEnd('time to get f');
 }
+/*
+var tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,'
+        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+        , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+        , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name, filename) {
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
 
+        document.getElementById("table_wrapper").href = uri + base64(format(template, ctx));
+        document.getElementById("dlink").download = filename;
+        document.getElementById("dlink").click();
 
+    }
+})();*/
 
 //Отримання частот слів на el букв у тексті Lel
