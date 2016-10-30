@@ -9,6 +9,8 @@ var arrayLel= []; //масив всіх слів на l букв
 var arrayVel=[];//масив унікальних слів на l букв
 var arrayFel = []; 
 var wordLength = prompt("Give me el");
+var arrayVocabularyPDFl = [];
+var arrayPDFl = [];
 console.log("Довжина слова(букв): "+wordLength);
 
 function clearTextAndGetLength() {
@@ -91,6 +93,8 @@ function getUniqueEL(arr) {
     console.log(arrayVel);
     return arrayVel.length;
 }
+
+
 //функція що знаходить усі унікальні слова
 function getUnique(arr) {
 
@@ -110,7 +114,7 @@ function getTimes(arr, word) {
     var count=0;
         for (var i = 0; i < arr.length; i++)
             {
-                if (word === arr[i])
+                if (word == arr[i])
                     {
                         count++
                     };
@@ -208,11 +212,20 @@ function getTableLE() {
     console.timeEnd('time to get Table');
 }
 
-//Отримання таблиці всіх слів
+//Отримання таблиці Pdf
 function getTable() {
-    console.time('time to get Table');
-    var cols = 2;
-    var rows = arrayV.length;
+    getUniquePDFl(arrayFel)
+    console.time('time to get PDFl');
+    for(var i=0; i<arrayVocabularyPDFl.length; i++)
+    {
+        arrayPDFl[i]=getTimes(arrayFel,arrayVocabularyPDFl[i]);
+    }
+    console.log(arrayPDFl);
+   
+    
+    
+    var cols = 3;
+    var rows = arrayVocabularyPDFl.length;
     if (cols < 1 || rows < 1) {
         cols = 1;
         rows = 1;
@@ -224,26 +237,32 @@ function getTable() {
     document.write(' <table id="table_wrapper" border=1, cellpadding=2, cellspacing=0, width="90%">');
     document.write("<tr>");
     document.write('<td>');
-    document.write("Word");
-    document.write("</td>");
-    document.write('<td>');
     document.write("F");
     document.write("</td>");
     document.write('<td>');
-    document.write("f");
+    document.write("NF");
+    document.write("</td>");
+    document.write('<td>');
+    document.write("p");
+    document.write("</td>");
+    document.write('<td>');
+    document.write("p_l");
     document.write("</td>");
     document.write("</tr>");
     for (var i = 0; i < rows; i++)
     {
         document.write("<tr>");
         document.write('<td>');
-        document.write(arrayV[i]);
+        document.write(arrayVocabularyPDFl[i]);
         document.write("</td>");
         document.write('<td>');
-        document.write(arrayF[i]);
+        document.write(arrayPDFl[i]);
         document.write("</td>");
         document.write('<td>');
-        document.write(arrayF[i]/arrayL.length);
+        document.write(arrayPDFl[i]/arrayV.length);
+        document.write("</td>");
+        document.write('<td>');
+        document.write(arrayPDFl[i]/arrayVel.length);
         document.write("</td>");
         document.write("</tr>");
     }
@@ -263,6 +282,25 @@ function getTable() {
             a.click();
         });
     });
+    console.timeEnd('time to get PDFl');
+}
+
+
+function getUniquePDFl(arr) {
+
+    nextInput:
+        for (var i = 0; i < arr.length; i++) {
+            var str = arr[i];
+            for (var j = 0; j < arrayVocabularyPDFl.length; j++) {
+                if (arrayVocabularyPDFl[j] === str) continue nextInput;
+            }
+            arrayVocabularyPDFl.push(str);
+        }
+    
+
+
+    console.log(arrayVocabularyPDFl);
+    return arrayVocabularyPDFl.length;
 }
 
 //Отримання частот слів на el букв у всьому тексі L
@@ -277,13 +315,24 @@ function getFel(){
 }
 
 function getF(){
-    console.time('time to get F');
+    console.time('time to get f');
     for(var i=0; i<arrayVel.length; i++)
     {
         arrayF[i]=getTimes(arrayL,arrayVel[i]);
     }
     console.log(arrayF);
     console.timeEnd('time to get f');
+}
+
+/*function getPDFl() {
+    
+}*/
+
+/*function getPdfF(arr)
+{
+    console.time('time to get PDF ');
+     console.log('К-сть різних слів на '+ wordLength +' букв:'+getUniqueEL(arrayFel));
+    console.timeEnd('time to get PDF ');
 }
 /*
 var tableToExcel = (function () {
