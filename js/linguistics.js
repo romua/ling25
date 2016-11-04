@@ -7,15 +7,16 @@ var arrayL = []; //масив всіх слів
 var arrayV = []; //масив унікальних слів - Vocabulary
 var arrayLel= []; //масив всіх слів на l букв
 var arrayVel=[];//масив унікальних слів на l букв
-var arrayFel = []; 
-var wordLength = prompt("Give me el");
+//var arrayFel = []; 
+var wordLength = prompt("Length of word: ");
 var arrayVocabularyPDFl = [];
 var arrayPDFl = [];
 console.log("Довжина слова(букв): "+wordLength);
 
 function clearTextAndGetLength() {
-    console.time('time to get Length');
+    console.time('time of preprocessing');
     var s = document.getElementById("inputText").value.toLowerCase();
+    document.getElementById("inputText").value = null;
     while (s.indexOf ('  ') >= 0) //видаляємо всі подвійні пробіли
     {
         t = s.split ('  ');
@@ -36,28 +37,11 @@ function clearTextAndGetLength() {
         t = s.split ('  ');
         s = t.join (' ');
     }
-    while (s.indexOf ('   ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
-
-    while (s.indexOf ('    ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
-    while (s.indexOf ('     ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
-    
     if (s.charAt (0) == ' ') s = s.substr (1); //якщо першим в тексті йде пробіл видаляємо його
     if (s.charAt (s.length - 1) == ' ') s = s.substring (0, s.length - 1); //якщо останній в тексті йде пробіл видаляємо його
     
     arrayL = s.split(' '); //закидуємо в масив наш текст
-    document.getElementById("outputText").value = s; //закидуємо в Textarea наш такст
+    //document.getElementById("outputText").value = s; //закидуємо в Textarea наш такст
 
    // засікаємо час виконання пошуку довижини тексту
     
@@ -71,9 +55,7 @@ function clearTextAndGetLength() {
     console.log('К-сть усіх слів: '+ arrayL.length);
     console.log(arrayLel);
     console.log('К-сть слів на '+ wordLength +' букв: '+ arrayLel.length);
-    console.timeEnd('time to get Length'); // засікаємо час виконання пошуку довижини тексту
-
-
+    console.timeEnd('time of preprocessing');
 }
 //функція що знаходить унікальні слова на el букв
 function getUniqueEL(arr) {
@@ -125,24 +107,22 @@ function getTimes(arr, word) {
 //Отримання словника
 function getVocabulary() {
 
-    console.time('time to get Vocabulary');
+    console.time('time to get V(L)');
     console.log("К-сть різних слів: "+getUnique(arrayL));
-    console.timeEnd('time to get Vocabulary');
+    console.timeEnd('time to get V(L)');
 
 }
 
-//Отримання словника на el букв
+//Отримання словника на l-букв
 function getVocabularyEL() {
    
-    console.time('time to get Vocabulary');
+    console.time('time to get Vl(L)');
         console.log('К-сть різних слів на '+ wordLength +' букв:'+getUniqueEL(arrayLel));
-    console.timeEnd('time to get Vocabulary');
-
-    
+    console.timeEnd('time to get Vl(L)')
 }
 
 
-//Отримання таблиці(Word F f fl) на el букв
+//Отримання таблиці(Word F f fl) на l букв
 function getTableLE() {
     console.time('time to get Table');
     var cols = 3;
@@ -181,15 +161,15 @@ function getTableLE() {
             document.write("</td>");
 
             document.write('<td>');
-                document.write(arrayFel[i]);
+                document.write(arrayF[i]);
             document.write("</td>");
 
             document.write('<td>');
-                document.write(+(arrayFel[i]/arrayL.length));
+                document.write(+(arrayF[i]/arrayL.length));
             document.write("</td>");
 
             document.write('<td>');
-                document.write(+(arrayFel[i]/arrayLel.length));
+                document.write(+(arrayF[i]/arrayLel.length));
             document.write("</td>");
         document.write("</tr>");
     }
@@ -213,7 +193,7 @@ function getTableLE() {
 }
 
 //Отримання таблиці Pdf
-function getTable() {
+function getPDF() {
     getUniquePDFl(arrayFel)
     console.time('time to get PDFl');
     for(var i=0; i<arrayVocabularyPDFl.length; i++)
@@ -221,8 +201,6 @@ function getTable() {
         arrayPDFl[i]=getTimes(arrayFel,arrayVocabularyPDFl[i]);
     }
     console.log(arrayPDFl);
-   
-    
     
     var cols = 3;
     var rows = arrayVocabularyPDFl.length;
@@ -278,8 +256,9 @@ function getTable() {
             var data_name = new Date().toLocaleString();
             var a = document.createElement('a');
             a.href = data_type + ', ' + table_html;
-            a.download = 'exported_table_' + data_name + '.xls';
+            a.download = 'data_'+wordLength+ '_' + data_name + '.xls';
             a.click();
+            
         });
     });
     console.timeEnd('time to get PDFl');
@@ -304,24 +283,24 @@ function getUniquePDFl(arr) {
 }
 
 //Отримання частот слів на el букв у всьому тексі L
-function getFel(){
-    console.time('time to get fel');
+/*function getFel(){
+    console.time('time to get Fl');
     for(var i=0; i<arrayVel.length; i++)
     {   
         arrayFel[i]=getTimes(arrayLel,arrayVel[i]);
     }
     console.log(arrayFel);
-    console.timeEnd('time to get fel');
-}
+    console.timeEnd('time to get Fl');
+}*/
 
 function getF(){
-    console.time('time to get f');
+    console.time('time to get F');
     for(var i=0; i<arrayVel.length; i++)
     {
         arrayF[i]=getTimes(arrayL,arrayVel[i]);
     }
     console.log(arrayF);
-    console.timeEnd('time to get f');
+    console.timeEnd('time to get F');
 }
 
 /*function getPDFl() {
