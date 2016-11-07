@@ -11,6 +11,7 @@ var arrayVel=[];//масив унікальних слів на l букв
 var wordLength = prompt("Length of word: ");
 var arrayVocabularyPDFl = [];
 var arrayPDFl = [];
+var arrayCDFl= [];
 var mytextLength =0;
 var vocabularyLength=0;
 console.log("Довжина слова(букв): "+wordLength);
@@ -158,6 +159,8 @@ function getF(){
     console.log(arrayF.length)
     console.timeEnd('time to get F');
 }
+
+
 //Отримання таблиці(Word F f fl) на l букв
 function getTableLE() {
     console.time('time to get Table');
@@ -227,8 +230,6 @@ function getTableLE() {
     });
     console.timeEnd('time to get Table');
 }
-
-//Отримання таблиці Pdf
 function getPDF() {
     getUniquePDFl(arrayF)
     console.time('time to get PDFl');
@@ -237,6 +238,30 @@ function getPDF() {
         arrayPDFl[i]=getTimes(arrayF,arrayVocabularyPDFl[i]);
     }
     console.log(arrayPDFl);
+}
+
+function getCDF() 
+{
+    getPDF();
+    var str = '';
+    var sum = 0;
+    for(var i=0; i<arrayPDFl.length; i++)
+    {
+        sum=0;
+        str = arrayPDFl[i]/arrayVel.length;
+        for (var j=0; j<arrayPDFl.length;j++)
+        {
+            if (arrayPDFl[j]/arrayVel.length<=str)
+                sum+=arrayPDFl[j]/arrayVel.length;
+        }
+        arrayCDFl.push(sum);
+    }
+    console.log(arrayCDFl);
+}
+//Отримання таблиці Pdf
+
+function getTablePDFandCDF() {
+
     
     var cols = 3;
     var rows = arrayVocabularyPDFl.length;
@@ -244,11 +269,12 @@ function getPDF() {
         cols = 1;
         rows = 1;
     }
-    document.write('<button id="btnExport">');
+    document.open();
+    document.write('<button id="btnExport" >');
     document.write("Save PDF");
     document.write('</button>');
     //
-    document.write(' <table id="table_wrapper" border=1, cellpadding=2, cellspacing=0, width="90%">');
+    document.write(' <table id="table_wrapper" border=1, cellpadding=2, cellspacing=0, width="90%" charset="windows-1251">');
     document.write("<tr>");
     document.write('<td>');
     document.write("F");
@@ -260,6 +286,9 @@ function getPDF() {
     document.write('<td>');
     document.write("p_l");
     document.write("</td>");
+    document.write('<td>');
+    document.write("P_l");
+    document.write("</td>")
     document.write("</tr>");
     for (var i = 0; i < rows; i++)
     {
@@ -273,9 +302,13 @@ function getPDF() {
         document.write('<td>');
         document.write(arrayPDFl[i]/arrayVel.length);
         document.write("</td>");
+        document.write('<td>');
+        document.write(arrayCDFl[i]);
+        document.write("</td>");
         document.write("</tr>");
     }
     document.write("</table>");
+    
     console.timeEnd('time to get Table');
     $(document).ready(function() {
         $("#btnExport").click(function(e) {
@@ -284,13 +317,18 @@ function getPDF() {
             var data_type = 'data:application/vnd.ms-excel';
             var table_div = document.getElementById('table_wrapper');
             var table_html = table_div.outerHTML.replace(/ /g, '%20');
+            table_html.replace(/,/, '.');
             var data_name = new Date().toLocaleString();
             var a = document.createElement('a');
             a.href = data_type + ', ' + table_html;
             a.download = 'word_'+wordLength+ '_' + data_name + '.xls';
             a.click();
+            document.close();
+            getTableLE()
         });
+       
+        
     });
     console.timeEnd('time to get PDFl');
-
+    
 }

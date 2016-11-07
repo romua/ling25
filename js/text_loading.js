@@ -7,7 +7,7 @@ console.timeEnd('time to load a text: ');
  */
 console.time('time to load a text: ');
 var text = '';
-$.get("inputText_large.txt", function(response) {
+$.get("inputText_small.txt", function(response) {
    text = response;
 });
 console.timeEnd('time to load a text: ');
