@@ -15,10 +15,36 @@ var arrayCDFl= [];
 var mytextLength =0;
 var vocabularyLength=0;
 console.log("Довжина слова(букв): "+wordLength);
+var text = '';
+
+function loadTextFile(files){
+    var file = files[0];
+    var theFileElem = document.getElementById("myFile");
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        text = e.target.result;
+
+        var output = [];
+        for (var i = 0, f; f = files[i]; i++) {
+            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                f.size, ' bytes, last modified: ',
+                f.lastModifiedDate.toLocaleDateString(), '</li>');
+        }
+        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+    }
+    
+    reader.readAsText(file);
+    reader.onerror = function (e) {
+        alert("Can`t read file");
+
+    };
+}
+
 
 function clearTextAndGetLength() {
+
     
-   
     console.time('time of preprocessing');
     //var s = document.getElementById("inputText").value.toLowerCase();
    // document.getElementById("inputText").value = null;

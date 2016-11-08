@@ -74,10 +74,11 @@
 								<div  class="col-lg-12 text-center">
 									<h2>Input text</h2>
 								</div>
-								<div>
-                                    <form action="process.php" accept-charset="UTF-8">
-									    <textarea id="inputText" style="color: black; height: 200px; width: 80%"></textarea>
-                                    </form>
+                                <div class="btn btn-lg btn-outline">
+
+                                        <input type="file" id="myFile" onchange="loadTextFile(files)">
+                                        <output id="list"></output>
+
 								</div>
 								<div>
                                     <input type="button" value="Pre" onclick="clearTextAndGetLength()" class="btn btn-lg btn-outline">
