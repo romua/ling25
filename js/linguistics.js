@@ -27,14 +27,15 @@ function loadTextFile(files){
 
         var output = [];
         for (var i = 0, f; f = files[i]; i++) {
-            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+            output.push('<li><strong>', escape(f.name), '</strong> ' +
+                '(', f.type || 'n/a', ') - ',
                 f.size, ' bytes, last modified: ',
-                f.lastModifiedDate.toLocaleDateString(), '</li>');
+                ' start with '+ text.substr(1, 10), '</li>');
         }
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
     }
     
-    reader.readAsText(file);
+    reader.readAsText(file, "UTF-8");
     reader.onerror = function (e) {
         alert("Can`t read file");
 
