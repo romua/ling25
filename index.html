@@ -76,9 +76,10 @@
 								</div>
                                 <div class="btn btn-lg btn-outline">
 
-                                        <input type="file" id="myFile" onchange="loadTextFile(files)">
+                                        <input type="file" id="myFile" onchange="loadTextFile(files)" tyle="color: black;">
                                         <output id="list"></output>
-
+                                        <input type="checkbox" id="ignoreNumbers">Delete numbers from text<Br>
+                                        <input type="checkbox" id="addDoomedSymbols">Add new doomed symbols<Br>
 								</div>
 								<div>
                                     <input title='Попередня обробка тексту' type="button" value="Pre" onclick="clearTextAndGetLength()" class="btn btn-lg btn-outline">
@@ -89,15 +90,15 @@
                                     <input title='Отримання частотних таблиць та PDF/CDF' type="button" value="Get Tables" onclick="getTablePDFandCDF()" class="btn btn-lg btn-outline" charset="windows-1251">
 
                                 </div>
-                                <!--
+
                                 <div class="col-lg-12 text-center">
-                                    <h2>Output text</h2>
+                                    <h2>Results</h2>
                                 </div>
                                 <div>
                                     <form accept-charset="UTF-8">
-                                        <textarea id="outputText" style="color: black; height: 200px; width: 80%"></textarea>
+                                        <textarea id="outputText" style="color: black; height: 200px; width: 40%"></textarea>
                                     </form>
-                                </div>-->
+                                </div>
 							</form>
                         <span class="skills"></span>
                     </div>
