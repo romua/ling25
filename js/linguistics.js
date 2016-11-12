@@ -1,7 +1,9 @@
 /**
  * Created by leap- on 19.10.2016.
  */
-var doomedSymbols = [];
+var doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
+    "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�", "="];
+var doomedNumbers = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9"];
 var arrayF = []; //масив в якому зберігаються частоти(к-сть появ слів(унікальних) в всьому тексті )
 var arrayL = []; //масив всіх слів
 var arrayLl= []; //масив всіх слів на l букв
@@ -9,10 +11,8 @@ var arrayV = []; //масив унікальних слів - Vocabulary V(L)
 var arrayVl = []; //масив унікальних слів на l букв в тексті на різну довжику слів(початковому) Vl(L)
 var arrayVlLl = []; //масив унікальнких слів на l був в тексті з l-букв
 
-
-//var arrayFel = []; 
 var wordLength = prompt("Length of word: ");
-var addedDoomedSymbols = prompt("Add new doomed symbols(separated by spaces)").split(' ');
+var addedDoomedSymbols = [];
 var arrayVocabularyPDFl = [];
 var arrayPDFl = [];
 var arrayCDFl= [];
@@ -42,34 +42,27 @@ function loadTextFile(files){
         alert("Can`t read file");
 
     };
-    //document.getElementById("inputText").value = text.substr(1,100);
+    
 }
 
 
-function clearTextAndGetLength() {
-
-    if ( document.getElementById("ignoreNumbers").checked == true)
-    {
-        doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
-            "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        console.log(doomedSymbols);
-    }
-    else
-    {
-        doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
-            "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�"];
-        console.log(doomedSymbols);
-    }
-    if ( document.getElementById("addDoomedSymbols").checked == true)
-    {
-        for(var i=0; i<addedDoomedSymbols.length; i++)
+function addDoomed() {
+    addedDoomedSymbols = prompt("Add new doomed symbols(separated by spaces)").split(' ');
+    for(var i=0; i<addedDoomedSymbols.length; i++)
         {
             doomedSymbols.push(addedDoomedSymbols[i]);
         }
-        
-        console.log(doomedSymbols);
+}
+
+function clearTextAndGetLength() {
+    if ( document.getElementById("ignoreNumbers").checked == true) {
+        for(var i=0; i<doomedNumbers.length; i++)
+        {
+            doomedSymbols.push(doomedNumbers[i]);
+        }
     }
-        console.time('time of preprocessing');
+    console.log(doomedSymbols);
+    console.time('time of preprocessing');
     //var s = document.getElementById("inputText").value.toLowerCase();
    // document.getElementById("inputText").value = null;
     var s = text.toLowerCase();
@@ -285,6 +278,7 @@ function getTableLE() {
     });
     console.timeEnd('time to get Table');
 }
+
 function getPDF() {
     getUniquePDFl(arrayF)
     console.time('time to get PDFl');
@@ -318,7 +312,17 @@ function getCDF()
 
 function getTablePDFandCDF() {
 
-    
+    var pdfTable = {};
+    for (var x = 0; x < arrayVocabularyPDFl.length; x++) {
+        pdfTable[x] = {
+
+            dataF: arrayVocabularyPDFl[x],
+            dataNF: arrayPDFl[x],
+            dataPDF: arrayPDFl[x]/arrayV.length,
+            dataPDFl: arrayPDFl[x]/arrayVl.length,
+            dataCDF: arrayCDFl[x]
+        };
+    }
     var cols = 3;
     var rows = arrayVocabularyPDFl.length;
     if (cols < 1 || rows < 1) {
@@ -405,4 +409,19 @@ function getTablePDFandCDF() {
     });
     console.timeEnd('time to get PDFl');
     
+}
+function  addDataToClass() {
+    var freqTable = {};
+
+    for (var x = 0; x < 100; x++) {
+        freqTable[x] = {
+            wordName: etc,
+            wordFreqF: 123,
+            wordFreqf: 0.1,
+            wordFreqfl: 0.1
+        };
+    }
+
+
+
 }

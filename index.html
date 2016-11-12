@@ -79,7 +79,7 @@
                                         <input type="file" id="myFile" onchange="loadTextFile(files)" tyle="color: black;">
                                         <output id="list"></output>
                                         <input type="checkbox" id="ignoreNumbers">Delete numbers from text<Br>
-                                        <input type="checkbox" id="addDoomedSymbols">Add new doomed symbols<Br>
+                                        <input type="checkbox" onchange="addDoomed()" id="addDoomedSymbols">Add new doomed symbols<Br>
 								</div>
 								<div>
                                     <input title='Попередня обробка тексту' type="button" value="Pre" onclick="clearTextAndGetLength()" class="btn btn-lg btn-outline">
