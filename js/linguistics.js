@@ -2,15 +2,13 @@
  * Created by leap- on 19.10.2016.
  */
 var doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
-    "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�", "="];
+    "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�", "=",  "$" , "\'", "/", "%", "+", "&", "`"];
 var doomedNumbers = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9"];
 var arrayF = []; //масив в якому зберігаються частоти(к-сть появ слів(унікальних) в всьому тексті )
 var arrayL = []; //масив всіх слів
 var arrayLl= []; //масив всіх слів на l букв
 var arrayV = []; //масив унікальних слів - Vocabulary V(L)
 var arrayVl = []; //масив унікальних слів на l букв в тексті на різну довжику слів(початковому) Vl(L)
-var arrayVlLl = []; //масив унікальнких слів на l був в тексті з l-букв
-
 var wordLength = prompt("Length of word: ");
 var addedDoomedSymbols = [];
 var arrayVocabularyPDFl = [];
@@ -47,7 +45,7 @@ function loadTextFile(files){
 
 function addDoomed() {
     addedDoomedSymbols = prompt("Add new doomed symbols(separated by spaces)").split(' ');
-    for(var i=0; i<addedDoomedSymbols.length; i++)
+    for(var i=0, len=addedDoomedSymbols.length; i<len; i++)
         {
             doomedSymbols.push(addedDoomedSymbols[i]);
         }
@@ -55,7 +53,7 @@ function addDoomed() {
 
 function clearTextAndGetLength() {
     if ( document.getElementById("ignoreNumbers").checked == true) {
-        for(var i=0; i<doomedNumbers.length; i++)
+        for(var i=0, len = doomedNumbers.length; i<len; i++)
         {
             doomedSymbols.push(doomedNumbers[i]);
         }
@@ -71,7 +69,7 @@ function clearTextAndGetLength() {
         t = s.split ('  ');
         s = t.join (' ');
     }
-    for(var i=0; i< doomedSymbols.length; i++)
+    for(var i=0, len= doomedSymbols.length; i<len ; i++)
     {
         t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
     }
@@ -93,7 +91,7 @@ function clearTextAndGetLength() {
 
    // засікаємо час виконання пошуку довжини тексту
     
-    for (var i=0; i<arrayL.length; i++) {
+    for (var i=0, len = arrayL.length; i<len; i++) {
         if (arrayL[i].length === +wordLength)
         {
             arrayLl.push(arrayL[i]);
@@ -114,7 +112,7 @@ function clearTextAndGetLength() {
 function getUnique(arr) {
 
     nextInput:
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0, len = arr.length; i < len; i++) {
             var str = arr[i];
             for (var j = 0; j < arrayV.length; j++) {
                 if (arrayV[j] === str) continue nextInput;
@@ -140,7 +138,7 @@ function getVocabulary() {
 function getUniqueEL(arr) {
 
     nextInput:
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0, len= arr.length; i < len; i++) {
             var str = arr[i];
             for (var j = 0; j < arrayVl.length; j++) {
                 // if(str.length === wordLength)
@@ -166,7 +164,7 @@ function getVocabularyEL() {
 
 function getTimes(arr, word) {
     var count=0;
-        for (var i = 0; i < arr.length; i++)
+        for (var i = 0, len = arr.length; i <len ; i++)
             {
                 if (word == arr[i])
                     {
@@ -185,7 +183,7 @@ function getTimes(arr, word) {
 function getUniquePDFl(arr) {
 
     nextInput:
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0, len =arr.length; i < len; i++) {
             var str = arr[i];
             for (var j = 0; j < arrayVocabularyPDFl.length; j++) {
                 if (arrayVocabularyPDFl[j] === str) continue nextInput;
@@ -200,7 +198,7 @@ function getUniquePDFl(arr) {
 }
 function getF(){
     console.time('time to get F');
-    for(var i=0; i<arrayVl.length; i++)
+    for(var i=0, len = arrayVl.length; i<len; i++)
     {
         arrayF[i]=getTimes(arrayLl,arrayVl[i]);
     }
@@ -222,7 +220,7 @@ function getTableLE() {
     }
     var freqTable = [];
 
-    for (var x = 0; x < arrayVl.length; x++) {
+    for (var x = 0, len = arrayVl.length; x <len ; x++) {
         freqTable[x] = {
             freqWord: arrayVl[x],
             freqF: +arrayF[x],
@@ -316,7 +314,8 @@ function getCDF()
     getPDF();
     var str = '';
     var sum = 0;
-    for(var i=0; i<arrayPDFl.length; i++)
+    
+    for(var i=0, len = arrayPDFl.length; i<len; i++)
     {
         sum=0;
         str = arrayPDFl[i]/arrayVl.length;
@@ -327,6 +326,7 @@ function getCDF()
         }
         arrayCDFl.push(sum);
     }
+    
     console.log(arrayCDFl);
     
 }
@@ -335,12 +335,12 @@ function getCDF()
 function getTablePDFandCDF() {
 
     var pdfTable = [];
-    for (var x = 0; x < arrayVocabularyPDFl.length; x++) {
+    for (var x = 0, len = arrayVocabularyPDFl.length; x <len ; x++) {
         pdfTable[x] = {
 
             dataF: +arrayVocabularyPDFl[x],
             dataNF: +arrayPDFl[x],
-            dataPDF: +arrayPDFl[x]/arrayV.length,
+            dataPDF: +arrayPDFl[x]/+vocabularyLength,
             dataPDFl: +arrayPDFl[x]/arrayVl.length,
             dataCDF: +arrayCDFl[x]
         };
@@ -364,7 +364,7 @@ function getTablePDFandCDF() {
     document.write("<tr>");
     document.write('<td>');
     document.write("rank");
-    document.write("</td>")
+    document.write("</td>");
     document.write('<td>');
     document.write("F");
     document.write("</td>");
@@ -385,10 +385,14 @@ function getTablePDFandCDF() {
     document.write("</td>")
     document.write("</tr>");
     var sum=0;
-    for (var i = 0; i< arrayPDFl.length; i++)
+    for (var i = 0, len = arrayPDFl.length; i< len; i++)
     {
          sum+=arrayPDFl[i];
-         
+    }
+    var sumCDFL=0;
+    for (var i = 0, len = arrayCDFl.length; i< len; i++)
+    {
+        sumCDFL+=arrayCDFl[i];
     }
     console.log(sum);
     for (var i = 0; i < rows; i++)
@@ -413,7 +417,7 @@ function getTablePDFandCDF() {
         document.write(pdfTable[i].dataPDFl); //вивід pl
         document.write("</td>");
         document.write('<td>');
-        document.write(pdfTable[i].dataCDF);     //вивід P
+        document.write(pdfTable[i].dataCDF/sumCDFL);     //вивід P
         document.write("</td>");
         document.write("</tr>");
     }
@@ -431,7 +435,7 @@ function getTablePDFandCDF() {
             var data_name = new Date().toLocaleString();
             var a = document.createElement('a');
             a.href = data_type + ', ' + table_html;
-            a.download = 'word_'+wordLength+ '_' + data_name + '.xls';
+            a.download = 'pdf_cdf_'+wordLength+ '_' + data_name + '.xls';
             a.click();
             document.close();
             getTableLE();
