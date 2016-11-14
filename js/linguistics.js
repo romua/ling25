@@ -18,6 +18,7 @@ var vocabularyLength=0;
 console.log("Довжина слова(букв): "+wordLength);
 var text = '';
 
+
 function loadTextFile(files){
     var file = files[0];
     var theFileElem = document.getElementById("myFile");
@@ -231,7 +232,7 @@ function getTableLE() {
     freqTable.sort(function(a, b) {
         return b.freqF - a.freqF;
     });
-    
+
     document.write('<button id="btnExport">');
     document.write("Save freq table");
     document.write('</button>');
@@ -272,11 +273,11 @@ function getTableLE() {
             document.write("</td>");
 
             document.write('<td>');
-                document.write(freqTable[i].freqf); //вивід відносної частоти появи слова L
+                document.write((freqTable[i].freqf).toString().replace(".",",")); //вивід відносної частоти появи слова L
             document.write("</td>");
 
             document.write('<td>');
-                document.write(freqTable[i].freqfl); //вивід відносної частоти появи слова в Ll
+                document.write((freqTable[i].freqfl).toString().replace(".",",")); //вивід відносної частоти появи слова в Ll
             document.write("</td>");
         document.write("</tr>");
     }
@@ -356,6 +357,7 @@ function getTablePDFandCDF() {
         rows = 1;
     }
     document.open();
+    //document.write('<input type="button" onclick="tableToExcel(\'table_wrapper\', \'W3C Example Table\')" value="Export to Excel">');
     document.write('<button id="btnExport" >');
     document.write("Save PDF");
     document.write('</button>');
@@ -408,16 +410,16 @@ function getTablePDFandCDF() {
         document.write(pdfTable[i].dataNF);          //вивід NF
         document.write("</td>");
         document.write('<td>');
-        document.write(pdfTable[i].dataPDF);  //вивід p
+        document.write( (pdfTable[i].dataPDF).toString().replace(".",","));  //вивід p
         document.write("</td>");
         document.write('<td>');
-        document.write(pdfTable[i].dataNF/sum);       //вивід p'=pi/sum(pi)
+        document.write((pdfTable[i].dataNF/sum).toString().replace(".",","));       //вивід p'=pi/sum(pi)
         document.write("</td>");
         document.write('<td>');
-        document.write(pdfTable[i].dataPDFl); //вивід pl
+        document.write((pdfTable[i].dataPDFl).toString().replace(".",",")); //вивід pl
         document.write("</td>");
         document.write('<td>');
-        document.write(pdfTable[i].dataCDF/sumCDFL);     //вивід P
+        document.write((pdfTable[i].dataCDF).toString().replace(".",","));     //вивід P
         document.write("</td>");
         document.write("</tr>");
     }
@@ -431,7 +433,6 @@ function getTablePDFandCDF() {
             var data_type = 'data:application/vnd.ms-excel';
             var table_div = document.getElementById('table_wrapper');
             var table_html = table_div.outerHTML.replace(/ /g, '%20');
-            table_html.replace(/,/, '.');
             var data_name = new Date().toLocaleString();
             var a = document.createElement('a');
             a.href = data_type + ', ' + table_html;
@@ -444,9 +445,4 @@ function getTablePDFandCDF() {
     console.timeEnd('time to get PDFl');
     
 }
-function  addDataToClass() {
-   
 
-
-
-}
