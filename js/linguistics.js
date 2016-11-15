@@ -10,8 +10,8 @@ var arrayLl= []; //масив всіх слів на l букв
 var arrayV = []; //масив унікальних слів - Vocabulary V(L)
 var arrayVl = []; //масив унікальних слів на l букв в тексті на різну довжику слів(початковому) Vl(L)
 var wordLength = prompt("Length of word: ");
-var addedDoomedSymbols = [];
-var arrayVocabularyPDFl = [];
+var addedDoomedSymbols = []; 
+var arrayVocabularyPDFl = []; //
 var arrayPDFl = [];
 var arrayCDFl= [];
 var vocabularyLength=0;
@@ -24,6 +24,7 @@ function loadTextFile(files){
     var theFileElem = document.getElementById("myFile");
 
     var reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
     reader.onload = function (e) {
         text = e.target.result;
 
@@ -35,7 +36,7 @@ function loadTextFile(files){
         document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
     }
     
-    reader.readAsText(file, "UTF-8");
+    
     reader.onerror = function (e) {
         alert("Can`t read file");
 
@@ -59,10 +60,12 @@ function clearTextAndGetLength() {
             doomedSymbols.push(doomedNumbers[i]);
         }
     }
-    console.log(doomedSymbols);
+    //вивід "приречиних" символів
+    console.log("Doomed symbols:"+doomedSymbols);
+    
+    // засікаємо час виконання пошуку довжини тексту
     console.time('time of preprocessing');
-    //var s = document.getElementById("inputText").value.toLowerCase();
-   // document.getElementById("inputText").value = null;
+    
     var s = text.toLowerCase();
     text = '';
     while (s.indexOf ('  ') >= 0) //видаляємо всі подвійні пробіли
@@ -70,10 +73,7 @@ function clearTextAndGetLength() {
         t = s.split ('  ');
         s = t.join (' ');
     }
-    for(var i=0, len= doomedSymbols.length; i<len ; i++)
-    {
-        t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
-    }
+    
    
     var t = s.split ('\r'); s = t.join ('');  // видаляємо всі "повернення каретки" \r
     t = s.split ('\n'); s = t.join (' '); // заміняємо всі "переходи на новий рядок" на пробіл
@@ -88,9 +88,14 @@ function clearTextAndGetLength() {
     if (s.charAt (0) == ' ') s = s.substr (1); //якщо першим в тексті йде пробіл видаляємо його
     if (s.charAt (s.length - 1) == ' ') s = s.substring (0, s.length - 1); //якщо останній в тексті йде пробіл видаляємо його
     
+    
+    for(var i=0, len= doomedSymbols.length; i<len ; i++)
+    {
+        t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
+    }
     arrayL = s.split(' '); //закидуємо в масив наш текст
 
-   // засікаємо час виконання пошуку довжини тексту
+   
     
     for (var i=0, len = arrayL.length; i<len; i++) {
         if (arrayL[i].length === +wordLength)
@@ -307,28 +312,12 @@ function getPDF() {
     {
         arrayPDFl[i]=getTimes(arrayF,arrayVocabularyPDFl[i]);
     }
-    console.log('arrayPDFl:'+arrayPDFl.length);
+    console.log('arrayPDFl:'+arrayPDFl);
 }
 
 function getCDF() 
 {
     getPDF();
-    var str = '';
-    var sum = 0;
-    
-    for(var i=0, len = arrayPDFl.length; i<len; i++)
-    {
-        sum=0;
-        str = arrayPDFl[i]/arrayVl.length;
-        for (var j=0; j<arrayPDFl.length;j++)
-        {
-            if (arrayPDFl[j]/arrayVl.length<=str)
-                sum+=arrayPDFl[j]/arrayVl.length;
-        }
-        arrayCDFl.push(sum);
-    }
-    
-    console.log(arrayCDFl);
     
 }
 //Отримання таблиці Pdf
@@ -343,13 +332,18 @@ function getTablePDFandCDF() {
             dataNF: +arrayPDFl[x],
             dataPDF: +arrayPDFl[x]/+vocabularyLength,
             dataPDFl: +arrayPDFl[x]/arrayVl.length,
-            dataCDF: +arrayCDFl[x]
         };
     }
     pdfTable.sort(function(a, b) {
-        return b.dataNF - a.dataNF;
+        return a.dataF - b.dataF;
     });
-
+    
+    //Get CDF
+    arrayCDFl[0]=parseFloat(1);
+    for(var i=1, len = arrayPDFl.length ; i<len; i++)
+    {
+        arrayCDFl[i]=(arrayCDFl[i-1]-parseFloat(pdfTable[i-1].dataPDFl));
+    }
     var cols = 3;
     var rows = arrayVocabularyPDFl.length;
     if (cols < 1 || rows < 1) {
@@ -357,7 +351,6 @@ function getTablePDFandCDF() {
         rows = 1;
     }
     document.open();
-    //document.write('<input type="button" onclick="tableToExcel(\'table_wrapper\', \'W3C Example Table\')" value="Export to Excel">');
     document.write('<button id="btnExport" >');
     document.write("Save PDF");
     document.write('</button>');
@@ -365,7 +358,7 @@ function getTablePDFandCDF() {
     document.write(' <table id="table_wrapper" border=1, cellpadding=2, cellspacing=0, width="90%" charset="windows-1251">');
     document.write("<tr>");
     document.write('<td>');
-    document.write("rank");
+    document.write("i");
     document.write("</td>");
     document.write('<td>');
     document.write("F");
@@ -391,11 +384,7 @@ function getTablePDFandCDF() {
     {
          sum+=arrayPDFl[i];
     }
-    var sumCDFL=0;
-    for (var i = 0, len = arrayCDFl.length; i< len; i++)
-    {
-        sumCDFL+=arrayCDFl[i];
-    }
+   
     console.log(sum);
     for (var i = 0; i < rows; i++)
     {
@@ -419,7 +408,7 @@ function getTablePDFandCDF() {
         document.write((pdfTable[i].dataPDFl).toString().replace(".",",")); //вивід pl
         document.write("</td>");
         document.write('<td>');
-        document.write((pdfTable[i].dataCDF).toString().replace(".",","));     //вивід P
+        document.write((arrayCDFl[i]).toString().replace(".",","));     //вивід P
         document.write("</td>");
         document.write("</tr>");
     }
