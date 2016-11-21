@@ -1,9 +1,9 @@
 /**
  * Created by leap- on 19.10.2016.
  */
-var doomedSymbols = [",", ".", ";", "!", ":", "", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
+var doomedSymbols = [",", ".", ";", "!", ":", "\"", "«", "»", "?", "…", "-", "–", "(", ")", "—",
     "—", "¬", "“",  "”", "’",  "‘",  "*", "|", "―", "�", "=",  "$" , "\'", "/", "%", "+", "&", "`"];
-var doomedNumbers = ["0","1", "2", "3", "4", "5", "6", "7", "8", "9"];
+var doomedNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 var arrayF = []; //масив в якому зберігаються частоти(к-сть появ слів(унікальних) в всьому тексті )
 var arrayL = []; //масив всіх слів
 var arrayLl= []; //масив всіх слів на l букв
@@ -11,7 +11,7 @@ var arrayV = []; //масив унікальних слів - Vocabulary V(L)
 var arrayVl = []; //масив унікальних слів на l букв в тексті на різну довжику слів(початковому) Vl(L)
 var wordLength = prompt("Length of word: ");
 var addedDoomedSymbols = []; 
-var arrayVocabularyPDFl = []; //
+var arrayVocabularyPDFl = []; 
 var arrayPDFl = [];
 var arrayCDFl= [];
 var vocabularyLength=0;
@@ -47,6 +47,7 @@ function loadTextFile(files){
 
 function addDoomed() {
     addedDoomedSymbols = prompt("Add new doomed symbols(separated by spaces)").split(' ');
+    
     for(var i=0, len=addedDoomedSymbols.length; i<len; i++)
         {
             doomedSymbols.push(addedDoomedSymbols[i]);
@@ -54,12 +55,15 @@ function addDoomed() {
 }
 
 function clearTextAndGetLength() {
+    
+    //додаємо цифри до "приречених" символів
     if ( document.getElementById("ignoreNumbers").checked == true) {
         for(var i=0, len = doomedNumbers.length; i<len; i++)
         {
             doomedSymbols.push(doomedNumbers[i]);
         }
     }
+    
     //вивід "приречиних" символів
     console.log("Doomed symbols:"+doomedSymbols);
     
@@ -67,19 +71,18 @@ function clearTextAndGetLength() {
     console.time('time of preprocessing');
     
     var s = text.toLowerCase();
+    //звільнюємо пам'ять змінної text
     text = '';
-    while (s.indexOf ('  ') >= 0) //видаляємо всі подвійні пробіли
-    {
-        t = s.split ('  ');
-        s = t.join (' ');
-    }
     
-   
     var t = s.split ('\r'); s = t.join ('');  // видаляємо всі "повернення каретки" \r
     t = s.split ('\n'); s = t.join (' '); // заміняємо всі "переходи на новий рядок" на пробіл
     t = s.split ('\t'); s = t.join (' '); // заміняємо всі табуляції на пробіл
-   
-
+    
+    
+    for(var i=0, len= doomedSymbols.length; i<len ; i++)
+    {
+        t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
+    }
     while (s.indexOf ('  ') >= 0) //видаляємо всі подвійні пробіли
     {
         t = s.split ('  ');
@@ -88,25 +91,22 @@ function clearTextAndGetLength() {
     if (s.charAt (0) == ' ') s = s.substr (1); //якщо першим в тексті йде пробіл видаляємо його
     if (s.charAt (s.length - 1) == ' ') s = s.substring (0, s.length - 1); //якщо останній в тексті йде пробіл видаляємо його
     
-    
-    for(var i=0, len= doomedSymbols.length; i<len ; i++)
-    {
-        t = s.split (String(doomedSymbols[i])); s = t.join (''); //видаляємо всі непотрібні символи
-    }
     arrayL = s.split(' '); //закидуємо в масив наш текст
-
-   
     
+    //находимо масив слів на l-букв
     for (var i=0, len = arrayL.length; i<len; i++) {
         if (arrayL[i].length === +wordLength)
         {
             arrayLl.push(arrayL[i]);
         }
     }
-    console.log(arrayL);
+    
+    console.log("Масив усіх слів:");
+	console.log(arrayL);
     console.log('К-сть усіх слів: '+ arrayL.length);
     document.getElementById("outputText").innerHTML+='К-сть усіх слів: '+ arrayL.length+"\n";
-    console.log(arrayLl);
+    console.log("Масив усіх слів на "+wordLength+" букв:");
+	console.log(arrayLl);
     console.log('К-сть слів на '+ wordLength +' букв: '+ arrayLl.length);
     document.getElementById("outputText").innerHTML+='К-сть слів на '+ wordLength +' букв: '+ arrayLl.length+"\n";
     console.timeEnd('time of preprocessing');
@@ -158,7 +158,7 @@ function getUniqueEL(arr) {
     return arrayVl.length;
 }
 
-
+//Отримання словника
 function getVocabularyEL() {
 
     console.time('time to get Vl(L)');
@@ -180,11 +180,10 @@ function getTimes(arr, word) {
     return count;
 
 }
-//Отримання словника
+
 
 
 //Отримання словника на l-букв
-
 
 function getUniquePDFl(arr) {
 
@@ -202,13 +201,15 @@ function getUniquePDFl(arr) {
     //console.log(arrayVocabularyPDFl);
     return arrayVocabularyPDFl.length;
 }
+
+
 function getF(){
     console.time('time to get F');
     for(var i=0, len = arrayVl.length; i<len; i++)
     {
         arrayF[i]=getTimes(arrayLl,arrayVl[i]);
     }
-    console.log(arrayF);
+    console.log("Array F: "+arrayF);
     console.log(arrayF.length)
     console.timeEnd('time to get F');
    
@@ -312,7 +313,7 @@ function getPDF() {
     {
         arrayPDFl[i]=getTimes(arrayF,arrayVocabularyPDFl[i]);
     }
-    console.log('arrayPDFl:'+arrayPDFl);
+    console.log('arrayPDFl: '+arrayPDFl);
 }
 
 function getCDF() 
